@@ -3,7 +3,7 @@ Uses OpenCV
 The original images are in .nd2 format. We need to convert it to tif before we start processing.
 To convert .nd2 to tif files Bio-Formats 5.2.2 (http://downloads.openmicroscopy.org/bio-formats/5.2.2/) was downloaded and installed.
 The Bio-format tools have been extracted into this folder.
-A bash file was written , which automated the conversion followed and the analysis of the images.
+
 
 Explanation of Images written:
 Layer_n depicts the original converted tif images.
@@ -12,8 +12,8 @@ redlow, redmed, redhigh (depicts low,med, high intensity synapses, respectively)
 GreenMIP,Redmip denote the original MaximalIntensityProjection (MIP) images, 
 remove.png is just an image created and used for processing.
 
-NOTE:To automate for multiple images make sure the csv file is in append mode and insert an endl to sure the metric are written correctly. Use the RUN_MULTIPLE.sh file to
-do both conversion and analysis.
+NOTE:To automate for multiple images make sure the csv file is in append mode and insert an endl to sure the metric are written correctly. A bash file was written , which automated the conversion and the analysis of the images.
+Use the RUN_MULTIPLE.sh file to do both conversion and analysis.
 
 To run the code, two command are needed:
 ./bfconvert -nolookup "$file" "$file".tif 
