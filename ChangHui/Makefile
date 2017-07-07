@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/vineeta/Programs/ChangHui_NCRCRG/ChangHui
+CMAKE_SOURCE_DIR = /home/vineeta/Programs/CCHMC_codes/ChangHui
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/vineeta/Programs/ChangHui_NCRCRG/ChangHui
+CMAKE_BINARY_DIR = /home/vineeta/Programs/CCHMC_codes/ChangHui
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/vineeta/Programs/ChangHui_NCRCRG/ChangHui/CMakeFiles /home/vineeta/Programs/ChangHui_NCRCRG/ChangHui/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/vineeta/Programs/CCHMC_codes/ChangHui/CMakeFiles /home/vineeta/Programs/CCHMC_codes/ChangHui/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/vineeta/Programs/ChangHui_NCRCRG/ChangHui/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/vineeta/Programs/CCHMC_codes/ChangHui/CMakeFiles 0
 .PHONY : all
 
 # The main clean target

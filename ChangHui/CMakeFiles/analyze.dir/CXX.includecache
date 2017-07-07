@@ -6,35 +6,35 @@
 
 #IncludeRegexTransform: 
 
-/home/vineeta/Programs/ChangHui_NCRCRG/ChangHui/ChangHui.cpp
+/home/vineeta/Programs/CCHMC_codes/ChangHui/ChangHui.cpp
 iostream
 -
 algorithm
 -
 opencv2/core/core.hpp
-/home/vineeta/Programs/ChangHui_NCRCRG/ChangHui/opencv2/core/core.hpp
+/home/vineeta/Programs/CCHMC_codes/ChangHui/opencv2/core/core.hpp
 opencv2/highgui/highgui.hpp
-/home/vineeta/Programs/ChangHui_NCRCRG/ChangHui/opencv2/highgui/highgui.hpp
+/home/vineeta/Programs/CCHMC_codes/ChangHui/opencv2/highgui/highgui.hpp
 opencv2/imgproc/imgproc.hpp
-/home/vineeta/Programs/ChangHui_NCRCRG/ChangHui/opencv2/imgproc/imgproc.hpp
+/home/vineeta/Programs/CCHMC_codes/ChangHui/opencv2/imgproc/imgproc.hpp
 string
 -
 opencv/cv.h
 -
 opencv2/highgui/highgui.hpp
-/home/vineeta/Programs/ChangHui_NCRCRG/ChangHui/opencv2/highgui/highgui.hpp
+/home/vineeta/Programs/CCHMC_codes/ChangHui/opencv2/highgui/highgui.hpp
 opencv2/features2d/features2d.hpp
-/home/vineeta/Programs/ChangHui_NCRCRG/ChangHui/opencv2/features2d/features2d.hpp
+/home/vineeta/Programs/CCHMC_codes/ChangHui/opencv2/features2d/features2d.hpp
 fstream
 -
 opencv2/imgproc/imgproc.hpp
-/home/vineeta/Programs/ChangHui_NCRCRG/ChangHui/opencv2/imgproc/imgproc.hpp
+/home/vineeta/Programs/CCHMC_codes/ChangHui/opencv2/imgproc/imgproc.hpp
 iostream
 -
 vector
 -
 opencv2/opencv.hpp
-/home/vineeta/Programs/ChangHui_NCRCRG/ChangHui/opencv2/opencv.hpp
+/home/vineeta/Programs/CCHMC_codes/ChangHui/opencv2/opencv.hpp
 tiffio.h
 -
 
