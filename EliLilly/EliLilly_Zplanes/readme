@@ -1,0 +1,10 @@
+This is the Eli Lilly program Version 2.
+It requires OpenCV to run.
+To run the program type ./analyze ImageName
+
+This does not perform Maximal Intensity projectio. It works on single z planes. 
+The different z-planes get saved in the format Imagename_zNumber.tif
+The corresponding detected blue contours get saved as transparent masks in the for,at Imagename_zNumber_mod.tif
+The low , medium and high intensity synapses for the z planes get saved as Imagename_zNumber_redlow.png,Imagename_zNumber_redmed.png,Imagename_zNumber_redhigh.png respectively.
+The dendrite masks corresponding to the z-planes get saved as Imagename_zNumber_dend.png
+Remove.png is a temporary file created during execution.

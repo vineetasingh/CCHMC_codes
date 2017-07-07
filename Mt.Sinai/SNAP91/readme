@@ -1,0 +1,13 @@
+This is the readme file for the source code of SNAP91 images
+Uses OpenCV
+Runs by ./analyze Folder_name
+Creates a metrics file SNAP91.csv
+
+NOTE: Original Image names contain special characters, numbers and spaces (Folder name:#3 40x ROI5-Image Export-02, Image name -#3 40x ROI5-Image Export-02_z08c1+2+3+4).
+This creates some problems when reading the folder name. I had to change the folder name and corresponding image name to contain only characters
+(Example: Folder name- ROI, Image name- ROI_z03c1+2+3+4.tif) in order for it to read. You might know a way for argv[1] to take special characters and spaces. This will greatly help.
+
+Outputs Images:
+Foldername_blue_MIP,Foldername_green_MIP,Foldername_red_MIP give the blue, green and red MIP versions
+Foldername_blue_processed gives the outlines of the detected nuclei (astrocytes-white, soma-green, other cells-pink)
+z_lowsynapse,z_medsynapse,z_highsynapse (depicts low,med, high intensity synapses, respectively)

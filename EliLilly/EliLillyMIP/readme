@@ -1,0 +1,12 @@
+This is the readme file for the source code of EliLilly images
+Uses OpenCV
+Runs by ./analyze Imagename
+Creates a metrics file elilillyfils.csv
+
+Explanation of Images written:
+Imagename_dend (depicts detected dendrites and axons), 
+Imagename_result depicts detected nuclei (astrocytes-white, soma-green, other cells-pink)
+redlow, redmed, redhigh (depicts low,med, high intensity synapses, respectively),
+Zbluemip,ZgreenMIP,Zredmip denote the original MaximalIntensityProjection (MIP) images, 
+remove.png is just an image created and used for processing.
+

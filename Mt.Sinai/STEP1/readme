@@ -1,0 +1,13 @@
+This is the readme file for the source code of STEP1 images
+Uses OpenCV
+Runs by ./analyze Folder_name
+Creates a metrics file STEP1i.csv
+
+Outputs Images:
+Foldername_blue_MIP,Foldername_green_MIP,Foldername_red_MIP give the blue, green and red MIP versions
+z_lowsynapse,z_medsynapse,z_highsynapse (depicts low,med, high intensity synapses, respectively)
+Foldername_blue_processed gives the outlines of the detected blue contours (astrocytes-white, soma-green, other cells-pink)
+Foldername_dend_processed gives the outlines of the detected dendrites and axons
+
+
+
