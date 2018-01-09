@@ -25,6 +25,14 @@ vector <Mat> enhance;
 const int NeuralTHRESH = 1400; //threshold is the amount of green pixels in the bounding rectangle around blucontours
 const float tune = 0.1;
 const int houghthresh = 275;
+string imname;
+
+//Function for writing Image
+void writeImage(string name,Mat img)
+{
+string filename=format("%s_%s.tif",imname.c_str(),name.c_str());
+imwrite(filename,img);
+}
 
 // changes contrast and brightness of each z slice for each channel
 
@@ -295,8 +303,8 @@ void reddetect(Mat im, Mat & redlow, Mat & redmed, Mat & redhigh,string imname, 
 	cv::inRange(im, cv::Scalar(0, 0, 5000), cv::Scalar(10, 10, 8000), enhancedl);
 	erode(enhancedl, enhancedl, Mat());
 	redlow = enhancedl.clone();
-	string imredl=format("%s_z%d_redlow.png",imname.c_str(),i);
-	imwrite(imredl, redlow);
+	string imredl=format("z%d_redlow",i);
+	writeImage(imredl, redlow);
 
 	Mat enhancedm;
 	// Enhance the red medium channel
@@ -305,16 +313,16 @@ void reddetect(Mat im, Mat & redlow, Mat & redmed, Mat & redhigh,string imname, 
 	erode(enhancedm, enhancedm, Mat());
 	dilate(enhancedm, enhancedm, Mat());
 	redmed = enhancedm.clone();
-	string imredm=format("%s_z%d_redmed.png",imname.c_str(),i);
-	imwrite(imredm, redmed);
+	string imredm=format("z%d_redmed",i);
+	writeImage(imredm, redmed);
 
 	Mat enhancedh;
 	// Enhance the red high channel
 	cv::inRange(im, cv::Scalar(0, 0, 30000), cv::Scalar(10, 10, 65535), enhancedh);
 	erode(enhancedh, enhancedh, Mat());
 	redhigh = enhancedh.clone();
-	string imredh=format("%s_z%d_redhigh.png",imname.c_str(),i);
-	imwrite(imredh, redhigh);
+	string imredh=format("z%d_redhigh",i);
+	writeImage(imredh, redhigh);
 
 
 }
@@ -538,8 +546,8 @@ int gauKsize=3;
 			}
 		}
 	}
-	string name = format("%s_z%d_dend.png", imname.c_str(),z);
-	imwrite(name, outputDend);
+	string name = format("z%d_dend",z);
+	writeImage(name, outputDend);
 	myfile<< countofdendrites << " ," << developed << ", " << lessdeveloped << ",";
 	dendritecalc(imname, redlow, redmed, redhigh, highIntgreenthreshimg, maskimage, developed, lessdeveloped, myfile);
 	
@@ -747,8 +755,8 @@ void drawthreshold(vector <Mat> stackim, int i, string imname)
 	addWeighted(stackim[i], 0.5, stackim[i + 1], 0.5, 0, added);
 	addWeighted(added, 0.5, stackim[i + 2], 0.5, 0, added);
 	added = 5 * added;
-	string name = format("%s_z%d_mod.tif", imname.c_str(), i);
-	imwrite(name, added);
+	string name = format("z%d_mod",  i);
+	writeImage(name, added);
 }
 //----------[2]
 // counts number of astrocytes, cells and nueral cells
@@ -843,8 +851,8 @@ void cellcount(string imname, vector <Mat> stackim, vector <Mat> enhance, int i)
 
 
 			/*~~~~~~*///drawthreshold(stackim, i, imname);
-      string name = format("%s_z%d_mod.tif", imname.c_str(), i);
-	    imwrite(name, outputcont);
+      string name = format("z%d_mod", i);
+	    writeImage(name, outputcont);
 			cellmetrics(imm, i, blucontours, nucontours, astcontours, myfile); // for the particular z-layer
 
 			int beta = i + 1;// red channel
@@ -859,12 +867,14 @@ void cellcount(string imname, vector <Mat> stackim, vector <Mat> enhance, int i)
 
 int main(int argc, char** argv)
 {
+
   std::vector<cv::Mat> channel; 
   int valred = 255, valblue = 255, valgreen = 255; 
   Mat im_color;
 	vector<Mat> stackim; 
   string raw_path;
-	myfile.open("elilyfiles.csv");
+  imname=argv[1];
+	myfile.open("elilyfiles.csv");//std::ofstream::out | std::ofstream::app
 	
   // reading 16 bit image
 
@@ -917,8 +927,8 @@ int main(int argc, char** argv)
 						int from_to1[] = { 0, 0, 1, 1, 2, 2 };
 						mixChannels(in1, 3, &result_blue, 1, from_to1, 3);
 						result_blue = changeimg(result_blue, 50, 0);
-						string iname = format("%s_z%d.tif", argv[1],i);
-						imwrite(iname, result_blue);
+						string iname = format("z%d",i);
+						writeImage(iname, result_blue);
 						stackim.push_back(result_blue);
 					}
 					if (i == 2 || (i % 3 == 2))// channel red
@@ -927,8 +937,8 @@ int main(int argc, char** argv)
 						int from_to2[] = { 0, 0, 1, 1, 2, 2 };
 						mixChannels(in2, 3, &result_red, 1, from_to2, 3);
 						result_red = changeimg(result_red, 50, 0);
-						string iname = format("%s_z%d.tif",argv[1], i);
-						imwrite(iname, result_red);
+						string iname = format("z%d",i);
+						writeImage(iname, result_red);
 						stackim.push_back(result_red);
 					}
 					if (i == 1 || (i % 3 == 1))// channel green
@@ -937,8 +947,8 @@ int main(int argc, char** argv)
 						int from_to3[] = { 0, 0, 1, 1, 2, 2 };
 						mixChannels(in3, 3, &result_green, 1, from_to3, 3);
 						result_green = changeimg(result_green, 50, 0);
-						string iname = format("%s_z%d.tif", argv[1],i);
-						imwrite(iname, result_green);
+						string iname = format("z%d",i);
+						writeImage(iname, result_green);
 						stackim.push_back(result_green);
 
 					}
@@ -955,7 +965,7 @@ int main(int argc, char** argv)
           countofloop++;
           if ((i==0)|| (i%3==0))//channel blue
           {
-          string writename = format("%s_%d.tif", imname.c_str(), i);
+          string writename = format("%s_%d", imname.c_str(), i);
           myfile<<writename<<",";
          
           enhanceImage(imname, stackim, enhance,i);// thresholds all three channels for all z planes of one image and writes it
@@ -984,7 +994,6 @@ int main(int argc, char** argv)
 	myfile.close();
 	return(0);
 }
-
 
 
 
