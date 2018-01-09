@@ -33,10 +33,16 @@ RNG rng;
 const int NeuralTHRESH = 1400; //threshold is the amount of green pixels in the bounding rectangle around blucontours
 const float tune = 0.1;
 const int houghthresh = 275;
+string imname;
+
+//Function for writing Image
+void writeImage(string name,Mat img)
+{
+string filename=format("%s_%s.tif",imname.c_str(),name.c_str());
+imwrite(filename,img);
+}
 
 // changes contrast and brightness of each z slice for each channel
-
-
 Mat changeimg(Mat image, float alpha, float beta)
 {
 	alpha = alpha / 10;
@@ -317,19 +323,19 @@ void reddetect(Mat im, Mat & redlow, Mat & redmed, Mat & redhigh)
 	// Enhance the red low channel
 	cv::inRange(im, cv::Scalar(0, 0, 10000), cv::Scalar(500, 500, 20000), enhancedl);
 	redlow = enhancedl.clone();
-	imwrite("redlow.tif", enhancedl);
+	writeImage("redlow", enhancedl);
 
 	Mat enhancedm;
 	// Enhance the red medium channel
 	cv::inRange(im, cv::Scalar(0, 0, 20000), cv::Scalar(500, 500, 40000), enhancedm);
 	redmed = enhancedm.clone();
-	imwrite("redmed.tif", redmed);
+	writeImage("redmed", redmed);
 
 	Mat enhancedh;
 	// Enhance the red high channel
 	cv::inRange(im, cv::Scalar(0, 0, 40000), cv::Scalar(500, 500, 65535), enhancedh);
 	redhigh = enhancedh.clone();
-	imwrite("redhigh.tif", redhigh);
+	writeImage("redhigh", redhigh);
 
 
 }
@@ -510,8 +516,7 @@ void filterHessian(string imname, Mat image, Mat redlow, Mat redmed, Mat redhigh
 			}
 		}
 	}
-	string name = format("%s_dend.png", imname.c_str());
-	imwrite(name, outputDend);
+	writeImage("dend", outputDend);
 	myfile << ", "<< countofdendrites << " ," << developed << ", " << lessdeveloped << ",";
 	dendritecalc(imname, redlow, redmed, redhigh, highIntgreenthreshimg, maskimage, developed, lessdeveloped, myfile);
 	
@@ -915,8 +920,8 @@ void cellcount(string imname, vector <Mat> stackim, vector <Mat> enhance, Mat co
 				drawContours(outputImage, astcontours, du, Scalar(0, 65535, 65535,65535), 2, 8, vector<Vec4i>(), 0, Point());//yellow
 			for (int ou = 0; ou < othcontours.size(); ou++)  // finding and saving the contours that are above a certain area
 				drawContours(outputImage, othcontours, ou, Scalar(35000, 0, 65535,65535), 2, 8, vector<Vec4i>(), 0, Point());//pink
-			string name = format("%s_result.png", imname.c_str());
-			imwrite(name, outputImage);
+			
+			writeImage("result", outputImage);
 
 
 
@@ -971,29 +976,30 @@ Mat mip(vector<Mat> input, int channel)
 int main(int argc, char** argv)
 {
 	//argv[1] = "002002-1";
+	imname=argv[1];
 	std::vector<cv::Mat> channel;
 	int valred = 255, valblue = 255, valgreen = 255;
 	Mat im_color;
 	vector<Mat> stackim;
 	string raw_path;
-	myfile.open("elilyfiles.csv");
+	myfile.open("elilyfiles.csv");//std::ofstream::out | std::ofstream::app
 	vector<Mat> blstackim;
 	vector<Mat> redstackim;
 	vector<Mat> grstackim;
 	vector<Mat> enhance;
 	Mat x, result;
 	myfile << "Image name" ;
-	myfile << "," << "Number of blue contours" << "," << "Number of blue contours with large area" << "," << "Number of blue contours with medium area" << "," << "Number of blue contours with small area" << "," << "Avg aspect ratio of high area blue contours" << "," << "Avg aspect ratio of med area blue contours" << "," << "Average aspect ratio of low area blue contours " << "," << "Avg diameter of high area blue contours" << "," << "Avg diameter of med area blue contours" << "," << "Average diameter of low area blue contours " << "," << "Average area of blue contours" << "," << "Average aspect ratio of blue contours" << "," << "Average diameter of blue contours" << ",";
-	myfile <<  "Number of neural contours" << "," << "Number of neural contours with large area" << "," << "Number of neural contours with medium area" << "," << "Number of neural contours with small area" << "," << "Avg aspect ratio of high area neural contours" << "," << "Avg aspect ratio of med area neural contours" << "," << "Average aspect ratio of low area neural contours " << "," << "Avg diameter of high area neural contours" << "," << "Avg diameter of med area neural contours" << "," << "Average diameter of low area neural contours " << "," << "Average area of neural contours" << "," << "Average aspect ratio of neural contours" << "," << "Average diameter of neural contours" << ",";
-	myfile << "Number of astroyte contours" << "," << "Number of astroyte contours with large area" << "," << "Number of astroyte contours with medium area" << "," << "Number of astroyte contours with small area" << "," << "Avg aspect ratio of high area astroyte contours" << "," << "Avg aspect ratio of med area astroyte contours" << "," << "Average aspect ratio of low area astroyte contours " << "," << "Avg diameter of high area astroyte contours" << "," << "Avg diameter of med area astroyte contours" << "," << "Average diameter of low area astroyte contours " << "," << "Average area of astroyte contours" << "," << "Average aspect ratio of astroyte contours" << "," << "Average diameter of astroyte contours" << ",";
+	myfile << "," << "Number of blue contours" << "," << "Number of blue contours with large area" << "," << "Number of blue contours with medium area" << "," << "Number of blue contours with small area" << "," << "Avg aspect ratio of high area blue contours" << "," << "Avg aspect ratio of med area blue contours" << "," << "Average aspect ratio of low area blue contours" << "," << "Avg diameter of high area blue contours" << "," << "Avg diameter of med area blue contours" << "," << "Average diameter of low area blue contours" << "," << "Average area of blue contours" << "," << "Average aspect ratio of blue contours" << "," << "Average diameter of blue contours" << ",";
+	myfile <<  "Number of neural contours" << "," << "Number of neural contours with large area" << "," << "Number of neural contours with medium area" << "," << "Number of neural contours with small area" << "," << "Avg aspect ratio of high area neural contours" << "," << "Avg aspect ratio of med area neural contours" << "," << "Average aspect ratio of low area neural contours" << "," << "Avg diameter of high area neural contours" << "," << "Avg diameter of med area neural contours" << "," << "Average diameter of low area neural contours" << "," << "Average area of neural contours" << "," << "Average aspect ratio of neural contours" << "," << "Average diameter of neural contours" << ",";
+	myfile << "Number of astroyte contours" << "," << "Number of astroyte contours with large area" << "," << "Number of astroyte contours with medium area" << "," << "Number of astroyte contours with small area" << "," << "Avg aspect ratio of high area astroyte contours" << "," << "Avg aspect ratio of med area astroyte contours" << "," << "Average aspect ratio of low area astroyte contours" << "," << "Avg diameter of high area astroyte contours" << "," << "Avg diameter of med area astroyte contours" << "," << "Average diameter of low area astroyte contours" << "," << "Average area of astroyte contours" << "," << "Average aspect ratio of astroyte contours" << "," << "Average diameter of astroyte contours" << ",";
 	
 	myfile  <<  "Total number of synapses around neural contours" << "," << "Total number of low int synapses around neural contours" << "," << "Total number of med synapses around neural contours" << "," << "Total number of high int synapses around neural contours" << ",";
 	myfile <<  "Total number of synapses around astr contours" << "," << "Total number of low int synapses around astr contours" << "," << "Total number of med synapses around astr contours" << "," << "Total number of high int synapses around astr contours" << ",";
 	
-	myfile << "Total no of dendrites" << "," << " No of Developed dendrites  " << ", " << " No of Less Developed dendrites  " << ",";
+	myfile << "Total no of dendrites" << "," << " No of Developed dendrites" << ", " << " No of Less Developed dendrites" << ",";
 	myfile << "Average low int synpases arnd high width dendrites" << "," << "Average med int synpases arnd high width dendrites" << "," << "Average high int synpases arnd high width dendrites" << ", " << "Average low int synpases arnd small width dendrites" << "," << "Average med int synpases arnd small width dendrites" << "," << "Average high int synpases arnd small width dendrites" << ",";
 	//3 times
-	myfile << "Average no of low int synapses around low int synapses " << "," << "Average no of med int synapses around low int synapses" << "," << "Average no of high int synapses around low int synapses" << ",";
+	myfile << "Average no of low int synapses around low int synapses" << "," << "Average no of med int synapses around low int synapses" << "," << "Average no of high int synapses around low int synapses" << ",";
 	myfile << "Average no of low int synapses around med int synapses" << "," << "Average no of med int synapses around med int synapses" << "," << "Average no of high int synapses around med int synapses" << ",";
 	myfile << "Average no of low int synapses around high int synapses" << "," << "Average no of med int synapses around high int synapses" << "," << "Average no of high int synapses around  high high int synapses" << ",";
 	//6 times
@@ -1080,6 +1086,7 @@ int main(int argc, char** argv)
 		}
 
 	}
+
 	//read the R, G, B stacks and create a single image using maximal intensity projection
 	Mat resultblue = mip(blstackim, 0);
 	Mat bluemip = changeimg(resultblue, 2, 500);
@@ -1087,11 +1094,10 @@ int main(int argc, char** argv)
 	Mat greenmip = changeimg(resultgreen, 25, 500);
 	Mat resultred = mip(redstackim, 2);
 	Mat redmip = changeimg(resultred, 25, 500);
-	//Mat resultbl = mip(blstackim);
-	//Mat resultgr = mip(grstackim);
-	imwrite("Zbluemip.tif", bluemip);
-	imwrite("Zredmip.tif", redmip);
-	imwrite("Zgreenmip.tif", greenmip);
+	writeImage("bluemip", bluemip);
+	writeImage("redmip", redmip);
+	writeImage("greenmip", greenmip);
+	
 	stackim.push_back(bluemip);
 	stackim.push_back(greenmip);
 	stackim.push_back(redmip);
@@ -1100,7 +1106,7 @@ int main(int argc, char** argv)
 
 	//watershedcontours(bluemip,enhance[0]);
 	cellcount(argv[1], stackim, enhance, combinelayers);// finds blue contours, astrocytes, nueral cells and other cells and calculates the metrics for these
-	//cout << "Entering Dendrite Stuff" << endl;
+	
 	//---------dendrite stuff-----------------
 	Mat redlow, redmed, redhigh;
 
